@@ -8,6 +8,7 @@ a {
     color: aliceblue;
 }
 
+
 .header {
     display: flex;
     justify-content: space-between;
@@ -55,7 +56,8 @@ a {
 
 
 .search-button,
-.advanced-bar {
+.advanced-bar,
+.advanced-search-button {
     padding: 12px; 
     border: 1px solid #ccc; 
     border-radius: 15px; 
@@ -65,7 +67,9 @@ a {
 }
 
 
-.search-button:hover {
+.search-button:hover,
+.advanced-bar:hover,
+.advanced-search-button:hover {
     background-color: #0056b3; 
 }
 
@@ -100,4 +104,62 @@ a {
     50% {
         transform: translateY(-10px);
     }
+}
+
+.footer {
+    text-align: center;
+    background-color:rgb(57, 92, 248);
+    color: white;
+    font-weight: lighter;
+    margin-top: 90px;
+    padding: 20px;
+}
+.form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 40px;
+}
+
+.var,
+.inputs {
+    font-size: 20px;
+    color: rgb(85, 84, 84);
+    font-weight: 300;
+}
+
+.inputs {
+    border-radius: 2px;
+    border: 1px slategray solid;
+    padding: 5px;
+    padding-left: 10px;
+    padding-right: 30px;
+    font-weight: 300;
+    width: 292px;
+    font-size: 17px;
+    height: 20px;
+    margin-top: 5px;
+    display: block;
+}
+.form {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-right: 280px;
+    margin-left: 280px;
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 100px;
+    gap: 40px;
+
+}
+
+.price {
+    height: 25px;
+    width: 50px;
+}
+
+.advanced-search-button {
+    width: 190px;
+    font-size: 16px;
+    margin-top: 44px;
+
 }
