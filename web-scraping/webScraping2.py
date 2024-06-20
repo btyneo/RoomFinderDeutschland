@@ -2,10 +2,10 @@ from playwright.sync_api import sync_playwright
 
 
 #-------------------------------------------------------------------------------------------------------------- 
-#curret problems: when going to new tab loading proper. regulate accepting cookies for first time new tab. format information properly. increase timeout accordingly. 
+#curret problems: extract pics (after first listing). go to next page and rerun entire script till all pages are done.  
 
 
-#next step: once u can get data from each listing on page1, go to the next page (increment page) and do the same till last available page is reached
+#next step: once u can get data from all pages with a single script run, implement captcha and translation api. (then add database and think about formatting)
  
 #-------------------------------------------------------------------------------------------------------------- 
 
@@ -53,30 +53,29 @@ def run(playwright):
         for index, listing in enumerate(listings):
             if "vermietet" in listing.text_content(): 
                 break 
-            if index == 0:
-                accept_cookies(2)
-
             new_page_link = listing.query_selector("a").get_attribute('href')
             page2.goto(f"https://www.wg-gesucht.de{new_page_link}")
+            if index == 0:
+                accept_cookies(2)
+                # continue_to_pics = page2.wait_for_selector(".pull-right.mb20r")
+                # continue_to_pics.click()
+
             
-            
-            free_from = page2.wait_for_selector(".section_panel_value")
-            address = page2.wait_for_selector(".section_panel_detail")
-            room_details = page2.wait_for_selector(".pl15.mb15")
-            num_ppl = page2.wait_for_selector(".mr5") #get title from this
-            #continue_to_pics = page2.wait_for_selector(".cursor-pointer")
-            # continue_to_pics.click()
+            listing_url = f"https://www.wg-gesucht.de{new_page_link}"
+            free_from = listing.query_selector(".col-xs-5.text-center").inner_text()
+            address = page2.wait_for_selector("#main_column > div:nth-child(6) > div > div > div > div:nth-child(1) > div > div > a > span").inner_text()
+            room_details = page2.wait_for_selector(".pl15.mb15").inner_text().split("Sprache/n:")[0]
+            # room_details = page2.wait_for_selector(".pl15.mb15")
+            apartment_poster = listing.query_selector(".ml5").inner_text()
+            apartment_rent = listing.query_selector(".col-xs-3").inner_text()
+           
+            apartment_name = listing.query_selector(".truncate_title").inner_text()
+           
            
 
-            print(f"Free from: {free_from.inner_text()}\nAddress: {address.inner_text()}\nNum of People: {num_ppl.inner_text}\nRoom Details: {room_details.inner_text()}")
+            print(f"\n\nApartment Name: {apartment_name}\nApartment Rent: {apartment_rent}\nApartment Poster: {apartment_poster}\nFree from: {free_from}\nAddress: {address}\nRoom Details: {room_details}\n\n")
             
             
-            input("press enter for next")
-            # apartment_name = listing.query_selector(".truncate_title").inner_text()
-            # apartment_rent = listing.query_selector(".col-xs-3").inner_text()
-            # apartment_poster = listing.query_selector(".ml5").inner_text()
-            
-            # print(f"\n\nApartment Name: {apartment_name}\nApartment Rent: {apartment_rent}\nApartment Poster: {apartment_poster}\n\n")
 
         input("press enter to close")
     except Exception as e: 
