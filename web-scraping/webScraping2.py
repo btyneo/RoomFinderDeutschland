@@ -75,9 +75,8 @@ def run(playwright):
         while new_pages_available == True: 
             if page_number != 0: 
                 page.goto(formatted_url)
-                page_title = page.wait_for_selector(".headline.headline-default .hidden-xs")
-                print(f"This is the page title {page_title.text_content()}")
-                if "0 aktive und vermietete Angebote" in page_title.text_content():
+                page_title = page.wait_for_selector(".headline.headline-default")
+                if ": 0" in page_title.text_content():
                     print("NO MORE LISTINGS AVAILABLE!")
                     new_pages_available = False 
                     return
@@ -92,7 +91,7 @@ def run(playwright):
             for index, listing in enumerate(listings):
                 try: 
                     if "vermietet" in listing.text_content(): 
-                        break 
+                        continue
                     new_page_link = listing.query_selector("a").get_attribute('href')
                     page2.goto(f"https://www.wg-gesucht.de{new_page_link}")
                     # if index == 0 and page_number == 1 :
