@@ -51,7 +51,6 @@ def run(playwright, city_name):
         submit_button = page.query_selector('.col-sm-12.col-md-3.text-right .filter_submit_button.btn.btn-md.wgg_blue.hidden-xs')
         submit_button.click()
         page_title = page.wait_for_selector(".headline.headline-default .hidden-xs")
-        print(f"This is the page title {page_title.text_content()}")
         page.wait_for_selector(".wgg_card.offer_list_item")
         listings = page.query_selector_all(".wgg_card.offer_list_item")
         page_title = page.query_selector(".headline.headline-default")
@@ -101,28 +100,20 @@ def run(playwright, city_name):
                     # #     # continue_to_pics = page2.wait_for_selector(".pull-right.mb20r")
                     # #     # continue_to_pics.click()
 
-                    apartment = {
-                    "listing_url": f"https://www.wg-gesucht.de{new_page_link}",
-                    "free_from": listing.wait_for_selector(".col-xs-5.text-center").inner_text(),
-                    "address": page2.wait_for_selector("#main_column > div:nth-child(6) > div > div > div > div:nth-child(1) > div > div > a > span").inner_text(),
-                    "room_size": listing.query_selector(".col-xs-3.text-right").inner_text(),
-                    #"room_details": page2.query_selector(".pl15.mb15").inner_text().split("Sprache/n:")[0],
+                    
+                    listing_url = f"https://www.wg-gesucht.de{new_page_link}"
+                    free_from = listing.wait_for_selector(".col-xs-5.text-center").inner_text()
+                    address = page2.wait_for_selector("#main_column > div:nth-child(6) > div > div > div > div:nth-child(1) > div > div > a > span").inner_text()
+                    room_details = page2.query_selector(".pl15.mb15").inner_text().split("Sprache/n:")[0]
                     # room_details = page2.wait_for_selector(".pl15.mb15")
-                    "apartment_poster": listing.wait_for_selector(".ml5").inner_text(),
-                    "apartment_rent": listing.query_selector(".col-xs-3").inner_text(),
-                    "apartment_name": listing.query_selector(".truncate_title").inner_text()
-                    }
-                    apartments.append(apartment)
-                    print("Listing URL:", apartment["listing_url"])
-                    print("Free from:", apartment["free_from"])
-                    print("Address:", apartment["address"])
-                    print("Room size:", apartment["room_size"])
-                    print("Apartment poster:", apartment["apartment_poster"])
-                    print("Apartment rent:", apartment["apartment_rent"])
-                    print("Apartment name:", apartment["apartment_name"])
-                    print("-" * 50)  # Separator between apartments
+                    apartment_poster = listing.wait_for_selector(".ml5").inner_text()
+                    apartment_rent = listing.query_selector(".col-xs-3").inner_text()
+                
+                    apartment_name = listing.query_selector(".truncate_title").inner_text()
+                
+                
 
-                #    print(f"\n\nApartment Name: {apartment_name}\nApartment Rent: {apartment_rent}\nApartment Poster: {apartment_poster}\nFree from: {free_from}\nAddress: {address}\nRoom Details: {room_details}\n\n")
+                    print(f"\n\nApartment Name: {apartment_name}\nApartment Rent: {apartment_rent}\nApartment Poster: {apartment_poster}\nFree from: {free_from}\nAddress: {address}\nRoom Details: {room_details}\n\n")
                 except Exception as e:
                     print(f"Error in listing {index}: {e}")
             
