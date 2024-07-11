@@ -10,8 +10,10 @@ from pymongo import MongoClient
 #next step: once u can get data from all pages with a single script run, implement captcha and translation api. (then add database and think about formatting)
  
 #-------------------------------------------------------------------------------------------------------------- 
+
+
 city_name = "Berlin"
-max_rent = "10000"
+max_rent = "1500"
 def run(playwright, city_name):
     browser = playwright.chromium.launch(headless=False)
     context = browser.new_context()
@@ -141,15 +143,28 @@ top_cities = [
     "Gelsenkirchen", "Mönchengladbach", "Braunschweig", "Chemnitz", "Kiel", "Aachen", "Halle (Saale)",
     "Magdeburg", "Freiburg im Breisgau", "Krefeld", "Lübeck", "Oberhausen", "Erfurt", "Mainz", "Rostock",
     "Kassel", "Hagen", "Saarbrücken", "Hamm", "Mülheim an der Ruhr", "Potsdam", "Ludwigshafen am Rhein", "Oldenburg",
-    "Leverkusen", "Osnabrück", "Solingen", "Heidelberg", "Herne", "Neuss", "Darmstadt", "Paderborn",
+    "Leverkusen", "Osnabrück", "Solingen", " qHeidelberg", "Herne", "Neuss", "Darmstadt", "Paderborn",
     "Regensburg", "Ingolstadt", "Würzburg", "Wolfsburg", "Offenbach am Main", "Ulm", "Heilbronn", "Pforzheim",
     "Göttingen", "Bottrop", "Trier", "Recklinghausen", "Reutlingen", "Bremerhaven", "Koblenz",
     "Bergisch Gladbach", "Jena", "Remscheid", "Erlangen", "Moers", "Siegen", "Hildesheim",
     "Salzgitter", "Cottbus", "Kaiserslautern", "Gütersloh", "Schwerin", "Witten", "Gera", "Iserlohn",
     "Zwickau", "Düren", "Esslingen am Neckar", "Ratingen", "Marl", "Lünen", "Hanau", "Velbert", "Dessau-Roßlau",
     "Lüdenscheid", "Viersen", "Flensburg", "Gießen", "Lüneburg", "Worms", "Wilhelmshaven", "Neumünster",
-    "Castrop-Rauxel", "Hattingen", "Sankt Augustin", "Grevenbroich", "Herten", "Troisdorf", "Celle"
+    "Castrop-Rauxel", "Hattingen", "Sankt Augustin", "Grevenbroich", "Herten", "Troisdorf", "Celle", "Rosenheim", "Aschaffenburg"
 ]
 
 
     
+def main():
+    all_apartments = []
+
+    for city in top_cities:
+        try: 
+            print(f'printing for {city}')
+            with sync_playwright() as playwright:
+                apartments = run(playwright, city)
+                all_apartments.extend(apartments)
+        except Exception as e: 
+            print("Error")
+
+main()
