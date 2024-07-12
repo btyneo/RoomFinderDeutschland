@@ -1,7 +1,8 @@
 from playwright.sync_api import sync_playwright
 import re 
 import time 
-from pymongo import MongoClient
+import pygame 
+import os 
 
 #-------------------------------------------------------------------------------------------------------------- 
 #curret problems: extract pics (after first listing). go to next page and rerun entire script till all pages are done.  
@@ -14,6 +15,10 @@ from pymongo import MongoClient
 
 city_name = "Berlin"
 max_rent = "1500"
+audio_file = r"web-scraping/alarm.mp3"
+pygame.init()
+pygame.mixer.init()
+sound = pygame.mixer.Sound(audio_file)
 def run(playwright, city_name):
     browser = playwright.chromium.launch(headless=False)
     context = browser.new_context()
@@ -79,6 +84,8 @@ def run(playwright, city_name):
         while new_pages_available == True: 
             if page_number != 0: 
                 page.goto(formatted_url)
+                if page.title() ==  "Überprüfung" or page.title == "überprüfung":
+                    sound.play()
                 page_title = page.wait_for_selector(".headline.headline-default")
                 if ": 0" in page_title.text_content():
                     print("NO MORE LISTINGS AVAILABLE!")
@@ -96,8 +103,17 @@ def run(playwright, city_name):
                 try: 
                     if "vermietet" in listing.text_content(): 
                         continue
+                    
+                    try:
+                        if listing.query_selector(".mdi.mdi-16px.mdi-vm.mdi-fw.mdi-lh.mdi-check-circle-outline"):
+                            continue
+                    except Exception as e:
+                        pass 
+
                     new_page_link = listing.query_selector("a").get_attribute('href')
                     page2.goto(f"https://www.wg-gesucht.de{new_page_link}")
+                    if page2.title() ==  "Überprüfung" or page2.title == "überprüfung":
+                        sound.play()
                     # if index == 0 and page_number == 1 :
                     #     accept_cookies(2)
                     # #     # continue_to_pics = page2.wait_for_selector(".pull-right.mb20r")
@@ -123,12 +139,13 @@ def run(playwright, city_name):
                     print("Apartment rent:", apartment["apartment_rent"])
                     print("Apartment name:", apartment["apartment_name"])
                     print("-" * 50)  # Separator between apartments
+                    
 
                 #    print(f"\n\nApartment Name: {apartment_name}\nApartment Rent: {apartment_rent}\nApartment Poster: {apartment_poster}\nFree from: {free_from}\nAddress: {address}\nRoom Details: {room_details}\n\n")
                 except Exception as e:
                     print(f"Error in listing {index}: {e}")
             
-
+        pygame.quit()   
     except Exception as e: 
         print(f"error {e}") #change this to 'return' at the end
     #finally: 
@@ -165,6 +182,6 @@ def main():
                 apartments = run(playwright, city)
                 all_apartments.extend(apartments)
         except Exception as e: 
-            print("Error")
+            print(f"Error {e}")
 
 main()
