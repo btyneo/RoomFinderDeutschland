@@ -3,6 +3,8 @@ import re
 import time 
 import pygame 
 import os 
+import json
+import firestore 
 
 #-------------------------------------------------------------------------------------------------------------- 
 #curret problems: extract pics (after first listing). go to next page and rerun entire script till all pages are done.  
@@ -13,7 +15,6 @@ import os
 #-------------------------------------------------------------------------------------------------------------- 
 
 
-city_name = "Berlin"
 max_rent = "1500"
 audio_file = r"web-scraping/alarm.mp3"
 pygame.init()
@@ -128,8 +129,10 @@ def run(playwright, city_name):
                     # room_details = page2.wait_for_selector(".pl15.mb15")
                     "apartment_poster": listing.wait_for_selector(".ml5").inner_text(),
                     "apartment_rent": listing.query_selector(".col-xs-3").inner_text(),
-                    "apartment_name": listing.query_selector(".truncate_title").inner_text()
-                    }
+                    "apartment_name": listing.query_selector(".truncate_title").inner_text(),
+                    "other_details": page2.query_selector(".pl15.mb15").inner_text()[:-11]}
+                    firestore.addData(city_name, apartment)
+
                     apartments.append(apartment)
                     print("Listing URL:", apartment["listing_url"])
                     print("Free from:", apartment["free_from"])
@@ -138,6 +141,7 @@ def run(playwright, city_name):
                     print("Apartment poster:", apartment["apartment_poster"])
                     print("Apartment rent:", apartment["apartment_rent"])
                     print("Apartment name:", apartment["apartment_name"])
+                    print(f"\n\nOther details: {apartment['other_details']}")
                     print("-" * 50)  # Separator between apartments
                     
 
@@ -154,8 +158,8 @@ def run(playwright, city_name):
 
 
 top_cities = [
-   "Berlin", "Hamburg", "München", "Köln", "Frankfurt am Main", "Stuttgart", "Düsseldorf", "Dortmund",
-    "Essen", "Leipzig", "Bremen", "Dresden", "Hannover", "Nürnberg", "Duisburg", "Bochum",
+   "Celle", "Hamburg", "München", "Köln", "Frankfurt am Main", "Stuttgart", "Düsseldorf", "Dortmund",
+    "Berlin", "Leipzig", "Bremen", "Dresden", "Hannover", "Nürnberg", "Duisburg", "Bochum",
     "Wuppertal", "Bielefeld", "Bonn", "Mannheim", "Karlsruhe", "Wiesbaden", "Münster", "Augsburg",
     "Gelsenkirchen", "Mönchengladbach", "Braunschweig", "Chemnitz", "Kiel", "Aachen", "Halle (Saale)",
     "Magdeburg", "Freiburg im Breisgau", "Krefeld", "Lübeck", "Oberhausen", "Erfurt", "Mainz", "Rostock",
@@ -167,20 +171,25 @@ top_cities = [
     "Salzgitter", "Cottbus", "Kaiserslautern", "Gütersloh", "Schwerin", "Witten", "Gera", "Iserlohn",
     "Zwickau", "Düren", "Esslingen am Neckar", "Ratingen", "Marl", "Lünen", "Hanau", "Velbert", "Dessau-Roßlau",
     "Lüdenscheid", "Viersen", "Flensburg", "Gießen", "Lüneburg", "Worms", "Wilhelmshaven", "Neumünster",
-    "Castrop-Rauxel", "Hattingen", "Sankt Augustin", "Grevenbroich", "Herten", "Troisdorf", "Celle", "Rosenheim", "Aschaffenburg"
+    "Castrop-Rauxel", "Hattingen", "Sankt Augustin", "Grevenbroich", "Herten", "Troisdorf", "Essen", "Rosenheim", "Aschaffenburg"
 ]
+
+test_cities = [
+     "Zwickau", "Düren", "Esslingen am Neckar", "Ratingen", "Marl", "Lünen", "Hanau", "Velbert", "Dessau-Roßlau"
+]
+
 
 
     
 def main():
-    all_apartments = []
+#    all_apartments = []
 
-    for city in top_cities:
+    for city in test_cities:
         try: 
             print(f'printing for {city}')
             with sync_playwright() as playwright:
-                apartments = run(playwright, city)
-                all_apartments.extend(apartments)
+                run(playwright, city)
+            #    all_apartments.extend(apartments)
         except Exception as e: 
             print(f"Error {e}")
 
