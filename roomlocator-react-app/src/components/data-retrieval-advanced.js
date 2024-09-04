@@ -1,14 +1,15 @@
 import { collection, getDocs } from "firebase/firestore";
 import { db } from '../firebase';
 
-const FetchData = async (cityName) => {
+const FetchDataAdvanced = async (cityName, minRent, maxRent) => {
   try {
     const querySnapshot = await getDocs(collection(db, cityName));
     querySnapshot.forEach((doc) => {
       const ListingInfo = doc.data();
-
+    
       const apartment_rent = parseInt(ListingInfo.apartment_rent);
-      const address = ListingInfo.address;
+      if (apartment_rent >= minRent && apartment_rent <= maxRent) {
+         const address = ListingInfo.address;
       const apartment_name = ListingInfo.apartment_name;
       const apartment_poster = ListingInfo.apartment_poster;
       const free_from = ListingInfo.free_from;
@@ -19,6 +20,9 @@ const FetchData = async (cityName) => {
       
       console.log("apartment name: ", apartment_name, "\naddress: ", address, "\nposter name: ", apartment_poster, "\nrent:", apartment_rent, "€",
         "\nroom size:", room_size, "\nfree from:", free_from, "\nother details:", other_details, "\nlisting url:", listing_url)
+        
+      }
+     
       
     }
   );
@@ -28,4 +32,5 @@ const FetchData = async (cityName) => {
 };
 
 
-export default FetchData;
+
+export default FetchDataAdvanced;
