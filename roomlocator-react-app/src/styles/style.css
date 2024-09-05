@@ -10,6 +10,10 @@ a {
     color: aliceblue;
    
 }
+::-webkit-scrollbar {
+    display: none;
+  }
+  
 
 
 .footer a {
