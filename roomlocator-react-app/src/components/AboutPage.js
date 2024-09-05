@@ -2,7 +2,7 @@
 import React from 'react';
 import '../styles/style.css'; // Make sure your CSS file is imported
 
-function NotFoundPage() {
+function AboutPage() {
   return (
     <div>
       <header className="header">
@@ -14,11 +14,11 @@ function NotFoundPage() {
       </header>
 
       <div> 
-       <h1>How Did You Get Here?</h1>
-       <p> Error! Page Not Found.</p>
+       <h1>About</h1>
+       <p> Add details here</p>
       </div>
 
-      <footer className="footer notfound-page">
+      <footer className="footer about-page">
         created by
         <a href="https://github.com/btyneo" target="_blank" rel="noopener noreferrer"> btyneo </a> &
         <a href="https://github.com/hashimxkhan" target="_blank" rel="noopener noreferrer"> hashimxkhan </a>
@@ -27,4 +27,4 @@ function NotFoundPage() {
   );
 }
 
-export default NotFoundPage;
+export default AboutPage;
