@@ -1,7 +1,59 @@
 import { collection, getDocs } from "firebase/firestore";
 import { db } from '../firebase';
 
+const capitalizeFirstLetter = (str) => {
+  if (!str) return '';
+  return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+};
+
 const FetchData = async (cityName, minPrice=null, maxPrice=null) => {
+  cityName = capitalizeFirstLetter(cityName)
+  
+  if (cityName === "Munich") {
+    cityName = "München"
+  }
+  else if (cityName === "Cologne") {
+    cityName = "Köln"
+  }
+  else if (cityName === "Wurzburg") {
+    cityName = "Würzburg"
+  }
+  else if (cityName === "Saarbrucken") {
+    cityName = "Saarbrücken"
+  }
+  else if (cityName === "Osnabruck") {
+    cityName = "Osnabrück"
+  }
+  else if (cityName === "Nurnberg") {
+    cityName = "Nürnberg"
+  }
+  else if (cityName === "Mulheim an der Ruhr") {
+    cityName = "Mülheim an der Ruhr"
+  }
+  else if (cityName === "Monchengladbach") {
+    cityName = "Mönchengladbach"
+  }
+  else if (cityName === "Luneberg") {
+    cityName = "Lüneburg"
+  }
+  else if (cityName === "Lubeck") {
+    cityName = "Lübeck"
+  }
+  else if (cityName === "Gutersloh") {
+    cityName = "Gütersloh"
+  }
+  else if (cityName === "Giessen") {
+    cityName = "Gießen"
+  }
+  else if (cityName === "Dusseldorf" ) {
+    cityName = "Düsseldorf"
+  }
+  else if (cityName === "Duren") {
+    cityName = "Düren"
+  }
+  else if (cityName === "Dessau Rosslau" ) {
+    cityName = "Dessau-Roßlau"}
+  
 
   let advancedOrNot = false 
   if (minPrice === null) {
