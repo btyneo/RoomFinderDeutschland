@@ -68,10 +68,11 @@ const FetchData = async (cityName, minPrice=null, maxPrice=null) => {
     try {
     
       const querySnapshot = await getDocs(collection(db, cityName));
+      let AllListingsData = []
       querySnapshot.forEach((doc) => {
+        let ListingInfoDict = {};
         const ListingInfo = doc.data();
-  
-        const apartment_rent = parseInt(ListingInfo.apartment_rent);
+
         const address = ListingInfo.address;
         const apartment_name = ListingInfo.apartment_name;
         const apartment_poster = ListingInfo.apartment_poster;
@@ -79,13 +80,14 @@ const FetchData = async (cityName, minPrice=null, maxPrice=null) => {
         const listing_url = ListingInfo.listing_url;
         const other_details = ListingInfo.other_details;
         const room_size = ListingInfo.room_size;
-        let rent = apartment_rent
+        const apartment_rent = parseInt(ListingInfo.apartment_rent);
         
-        console.log("apartment name: ", apartment_name, "\naddress: ", address, "\nposter name: ", apartment_poster, "\nrent:", apartment_rent, "€",
-          "\nroom size:", room_size, "\nfree from:", free_from, "\nother details:", other_details, "\nlisting url:", listing_url)
+        Object.assign(ListingInfoDict, {apartment_rent: apartment_rent, address: address, apartment_name: apartment_name, apartment_poster: apartment_poster, free_from:free_from, listing_url:listing_url, other_details:other_details, room_size:room_size})
+        AllListingsData.push(ListingInfoDict);
         
       }
-    );
+      );
+      return AllListingsData;
     } catch (error) {
       console.error("Error fetching documents: ", error);
     }
@@ -94,8 +96,10 @@ const FetchData = async (cityName, minPrice=null, maxPrice=null) => {
   else {
     try {
       const querySnapshot = await getDocs(collection(db, cityName));
+      let AllListingsData = [];
       querySnapshot.forEach((doc) => {
         const ListingInfo = doc.data();
+        let ListingInfoFiltered = {};
       
         const apartment_rent = parseInt(ListingInfo.apartment_rent);
         if (apartment_rent >= minPrice && apartment_rent <= maxPrice) {
@@ -107,15 +111,15 @@ const FetchData = async (cityName, minPrice=null, maxPrice=null) => {
         const other_details = ListingInfo.other_details;
         const room_size = ListingInfo.room_size;
         let rent = apartment_rent
-        
-        console.log("apartment name: ", apartment_name, "\naddress: ", address, "\nposter name: ", apartment_poster, "\nrent:", apartment_rent, "€",
-          "\nroom size:", room_size, "\nfree from:", free_from, "\nother details:", other_details, "\nlisting url:", listing_url)
+        Object.assign(ListingInfoFiltered, {apartment_rent: apartment_rent, address: address, apartment_name: apartment_name, apartment_poster: apartment_poster, free_from:free_from, listing_url:listing_url, other_details:other_details, room_size:room_size})
+        AllListingsData.push(ListingInfoFiltered);
           
         }
        
         
       }
     );
+    return AllListingsData;
     } catch (error) {
       console.error("Error fetching documents: ", error);
     }

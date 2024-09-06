@@ -3,7 +3,7 @@ import React, {useEffect, useState} from 'react';
 import { useLocation } from 'react-router-dom/cjs/react-router-dom.min';
 import '../styles/style.css'; // Make sure your CSS file is imported
 import FetchData from './data-retrieval';
-
+import ListingsTable from './create-table';
 
 function ResultsPage() {
   
@@ -11,25 +11,32 @@ function ResultsPage() {
   const [city, setCity] = useState('');
   const [minPrice, setMinPrice] = useState('');
   const [maxPrice, setMaxPrice] = useState('');
+  const [data, setData] = useState([]);
+  let ListingsData = [];
+  
  
 
   useEffect(() => {
-    const params = new URLSearchParams(location.search);
-    const cityParam = params.get('city');
-    const minPriceParam = params.get('minPrice');
-    const maxPriceParam = params.get('maxPrice');
-    setCity(cityParam);
-    setMinPrice(minPriceParam);
-    setMaxPrice(maxPriceParam);
+    const fetchData = async () => {
+      const params = new URLSearchParams(location.search);
+      const cityParam = params.get('city');
+      const minPriceParam = params.get('minPrice');
+      const maxPriceParam = params.get('maxPrice');
+      setCity(cityParam);
+      setMinPrice(minPriceParam);
+      setMaxPrice(maxPriceParam);
   
+      const ListingsData = await FetchData(cityParam, minPriceParam, maxPriceParam);
+      setData(ListingsData)
+    }
+    fetchData();
 
   }, [location.search])
 
- FetchData(city, minPrice, maxPrice)
-
-
+ ListingsData = FetchData(city, minPrice, maxPrice) //this is a list with dictionaries which have rent name poster free from url other details room size
+ 
   return (
-    <div>
+    <div className='results-page'>
       <header className="header">
         <div>RoomLocator <div className="small">Deutschland</div></div>
         <div className="right">
@@ -38,10 +45,8 @@ function ResultsPage() {
         </div>
       </header>
 
-      <div> 
-        <table className="table">
-          {/* Table content goes here */}
-        </table>
+      <div className='table'> 
+        <ListingsTable data={data}></ListingsTable>
       </div>
 
       <footer className="footer results-page">

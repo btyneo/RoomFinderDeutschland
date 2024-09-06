@@ -199,3 +199,41 @@ a {
     padding: 20px;
     
 }
+
+.table {
+    width: 70%; /* Center the table */
+    border-collapse: collapse; /* Optional: For removing double borders */
+    display: flex;
+    justify-content: center;
+    margin: auto;
+    color: aliceblue;
+    
+  }
+  
+
+  .table th {
+    background-color: #004080; /* Dark Blue */
+    color: #FFFFFF; /* White */
+    padding: 10px;
+  }
+  
+  .table td {
+    background-color: #2C2C2C; /* Dark Gray */
+    padding: 10px;
+  }
+  
+  .table tr:hover {
+    background-color: #211f1f; /* Darker Gray on hover */
+  }
+  
+  .table th, .table td {
+    border: 1px solid #DDDDDD; /* Light Gray border */
+    text-align: left;
+  }
+
+  .results-page {
+    background-color: #1F1F1F ;
+  }
+  .results-page.footer {
+    background-color: #3474a8;
+  }
