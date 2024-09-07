@@ -200,6 +200,53 @@ a {
     
 }
 
+
+/* Dark Theme */
+.dark-theme .table td {
+    background-color: #262525;
+}
+
+
+.light-theme .table tr:hover td { /* Darker Gray on hover */
+    background-color: #99c9f7;
+    color: white;
+  }
+
+  .dark-theme .table tr:hover td { /* Darker Gray on hover */
+    background-color: #1a1818;
+    color: #4682B4;
+  }
+/* Light Theme */
+.light-theme .table td {
+    background-color:#b8dcff ; 
+    color: black;
+}
+
+.light-theme .body-results {
+    background-color:  #8ebeed;
+}
+
+.dark-theme .body-results {
+    background-color: #211f1f;
+}
+
+.light-theme .control-button {
+    background-color: #004080;
+    color: aliceblue;
+}
+
+.dark-theme .results-page {
+    background-color: #211f1f;
+}
+
+.light-theme .results-page {
+    background-color: #004080;
+}
+
+
+
+
+
 .table {
     width: 70%; /* Center the table */
     border-collapse: collapse; /* Optional: For removing double borders */
@@ -207,7 +254,9 @@ a {
     justify-content: center;
     margin: auto;
     color: aliceblue;
-    
+    max-width: 80%;
+    padding-left: 50px;
+    flex-grow: 1;
   }
   
 
@@ -224,6 +273,7 @@ a {
   
   .table tr:hover {
     background-color: #211f1f; /* Darker Gray on hover */
+    color: #4682B4;
   }
   
   .table th, .table td {
@@ -232,8 +282,63 @@ a {
   }
 
   .results-page {
-    background-color: #1F1F1F ;
+    background-color: #1F1F1F;
   }
+ 
   .results-page.footer {
     background-color: #3474a8;
+    margin: 0;
   }
+
+ 
+
+  .body-results {
+    display: flex; /* Make the controls and table sit side by side */
+    justify-content: space-between; /* Space out the controls and table */
+    width: 100%; /* Ensure both items take up the full width */
+    flex: 1;
+    min-height: 100vh;
+  }
+  
+  .controls {
+    display: flex;
+    flex-direction: column;
+    width: 150px; /* Adjust width as needed */
+    gap: 10px; /* Add space between the buttons */
+    padding-left: 20px;
+    padding-right: 20px;
+    position: absolute;
+    margin-top: 10px;
+  }
+
+  .control-button {
+    border: 2px solid #004080;
+    padding: 10px 0; /* Equal padding on top and bottom */
+    font-size: small;
+    font-weight: bold;
+    background-color: #004080;
+    color: aliceblue;
+    text-align: center; /* Center the text */
+    cursor: pointer; /* Changes the cursor to a pointer on hover */
+    transition: background-color 0.3s ease; /* Smooth transition effect */
+    
+  }
+
+  .control-button:hover {
+    background-color: whitesmoke; /* Hover background color */
+    color: black; /* Optional: change text color on hover for better contrast */
+  }
+
+  .searchbutton {
+    display: flex;
+    padding-top: 10px;
+    
+  }
+
+  .controls .control-button {
+    margin-left: 40px;
+    margin-top: 10px;
+  }
+
+
+ 
