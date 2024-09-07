@@ -44,6 +44,7 @@ function HomePage() {
     <div>
       <header className="header">
         <div>RoomLocator <div className="small">Deutschland</div></div>
+        <div className='demo'>Demo</div>
         <div className="right">
           <a href="/">Home</a>
           <a href="/about">About</a>
