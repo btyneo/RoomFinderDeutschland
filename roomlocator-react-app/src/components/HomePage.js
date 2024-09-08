@@ -1,5 +1,5 @@
 // src/components/HomePage.js
-import React from 'react';
+import React, { useCallback } from 'react';
 import { useState , useRef, useEffect} from 'react';
 import { useHistory } from 'react-router-dom';
 import '../styles/style.css'; // Import your CSS file
@@ -18,6 +18,7 @@ function HomePage() {
   const [maxPrice, setMaxPrice] = useState('');
   const [isSearchDisabled, setIsSearchDisabled] = useState(true);
   const [isTopSearchDisabled, SetIsTopSearchDisabled] = useState(true);
+  const [error, setError] = useState('');
 
   const history = useHistory();
 
@@ -40,6 +41,32 @@ function HomePage() {
       search: `?city=${encodeURIComponent(city)}&minPrice=${encodeURIComponent(minPrice)}&maxPrice=${encodeURIComponent(maxPrice)}`
     });
   };
+
+
+const topCitiesGermany = ["berlin", "hamburg", "munich", "cologne", "frankfurt am main", "stuttgart", "duesseldorf", "leipzig", "dortmund", "essen", "bremen", "dresden", "hanover", "nuremberg", "duisburg", "bochum", "wuppertal", "bielefeld", "bonn", "muenster", "karlsruhe", "mannheim", "augsburg", "wiesbaden", "gelsenkirchen", "moenchengladbach", "braunschweig", "chemnitz", "aachen", "kiel", "halle (saale)", "magdeburg", "freiburg im breisgau", "krefeld", "luebeck", "oberhausen", "erfurt", "mainz", "rostock", "kassel", "hagen", "saarbruecken", "hamm", "potsdam", "ludwigshafen am rhein", "oldenburg", "leverkusen", "osnabrueck", "solingen", "heidelberg", "herne", "neuss", "darmstadt", "regensburg", "paderborn", "jena", "cottbus", "wuerzburg", "trier", "kaiserslautern", "giessen", "tuebingen", "ulm", "landshut", "worms", "loerrach", "weimar", "goerlitz", "speyer", "konstanz", "hildesheim", "offenbach am main", "zwickau", "bamberg", "remscheid", "suhl", "stendal", "rheinbach", "gotha", 'rosenheim', 'aschaffenburg', 'erlangen', 'nurnberg'];
+
+
+//validation of fields 
+const validateInput = useCallback(() => {
+  const formattedCity = city.toLowerCase();
+  if ((minPrice < 0 || maxPrice < 0)) {
+    setError('Prices cannot be negative.');
+    setIsSearchDisabled(true);
+  } else if ((Number(minPrice) >= Number(maxPrice))) {
+    setError('Minimum price cannot be greater than or equal to the maximum price.');
+    setIsSearchDisabled(true);
+  } else if (!topCitiesGermany.includes(formattedCity)) {
+    setError('Sorry! We do not currently have that city in our database.');
+    setIsSearchDisabled(true);
+  } else {
+    setError('');
+    setIsSearchDisabled(false);
+  }
+}, [city, minPrice, maxPrice, topCitiesGermany]);
+
+useEffect(() => {
+  validateInput();
+}, [validateInput]);
 
 
   //this is for disabling search when fields are filled out 
@@ -118,6 +145,7 @@ function HomePage() {
         created by
         <a href="https://github.com/btyneo" target="_blank" rel="noopener noreferrer"> btyneo </a> &
         <a href="https://github.com/hashimxkhan" target="_blank" rel="noopener noreferrer"> hashimxkhan </a>
+        <p className='allrightsreserved'>&copy; 2024 RoomLocator Deutschland. All rights reserved.</p>
       </footer>
     </div>
   );

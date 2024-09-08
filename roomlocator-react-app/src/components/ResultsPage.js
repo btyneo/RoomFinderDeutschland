@@ -36,6 +36,8 @@ function ResultsPage() {
       const cityParam = params.get('city');
       const minPriceParam = params.get('minPrice');
       const maxPriceParam = params.get('maxPrice');
+     
+
       setCity(cityParam);
       setMinPrice(minPriceParam);
       setMaxPrice(maxPriceParam);
@@ -107,6 +109,7 @@ function ResultsPage() {
         created by
         <a href="https://github.com/btyneo" target="_blank" rel="noopener noreferrer"> btyneo </a> &
         <a href="https://github.com/hashimxkhan" target="_blank" rel="noopener noreferrer"> hashimxkhan </a>
+        <p className='allrightsreserved'>&copy; 2024 RoomLocator Deutschland. All rights reserved.</p>
       </footer>
     </div>
   );

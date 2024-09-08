@@ -14,15 +14,18 @@ function NotFoundPage() {
         </div>
       </header>
 
-      <div> 
-       <h1>How Did You Get Here?</h1>
-       <p> Error! Page Not Found.</p>
-      </div>
+      <div className="not-found-container">
+      <h1 className="error-code">404</h1>
+      <p className="error-message">Oops! Page Not Found</p>
+      <p className="description">The page you're looking for does not exist.</p>
+      <a href="/" className="home-button">Go to Home</a>
+    </div>
 
       <footer className="footer notfound-page">
         created by
         <a href="https://github.com/btyneo" target="_blank" rel="noopener noreferrer"> btyneo </a> &
         <a href="https://github.com/hashimxkhan" target="_blank" rel="noopener noreferrer"> hashimxkhan </a>
+        <p className='allrightsreserved'>&copy; 2024 RoomLocator Deutschland. All rights reserved.</p>
       </footer>
     </div>
   );
