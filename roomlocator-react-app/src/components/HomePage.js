@@ -1,6 +1,6 @@
 // src/components/HomePage.js
 import React from 'react';
-import { useState , useRef} from 'react';
+import { useState , useRef, useEffect} from 'react';
 import { useHistory } from 'react-router-dom';
 import '../styles/style.css'; // Import your CSS file
 
@@ -16,6 +16,8 @@ function HomePage() {
   const [city, setCity] = useState('');
   const [minPrice, setMinPrice] = useState('');
   const [maxPrice, setMaxPrice] = useState('');
+  const [isSearchDisabled, setIsSearchDisabled] = useState(true);
+  const [isTopSearchDisabled, SetIsTopSearchDisabled] = useState(true);
 
   const history = useHistory();
 
@@ -40,6 +42,23 @@ function HomePage() {
   };
 
 
+  //this is for disabling search when fields are filled out 
+  useEffect(() => {
+    if (city && minPrice && maxPrice) {
+      setIsSearchDisabled(false);
+    } else {
+      setIsSearchDisabled(true);
+    }
+  }, [city, minPrice, maxPrice]);
+
+  useEffect(() => {
+    if (city) {
+      SetIsTopSearchDisabled(false);
+    } else {
+      SetIsTopSearchDisabled(true);
+    }
+  }, [city]);
+
   return (
     <div>
       <header className="header">
@@ -54,7 +73,7 @@ function HomePage() {
         Find Your Home.
         <div className="search-container">
           <input type="text" className="search-bar" placeholder="Enter a city or a town..." value={city} onChange={(e) => setCity(e.target.value)} />
-          <button type="button" className="search-button" onClick={handleCitySearch}>Search</button>
+          <button type="button" className="search-button" disabled={isTopSearchDisabled} onClick={handleCitySearch}>Search</button>
         </div>
         <div className="advanced-search">
           <button type="button" className="advanced-bar" onClick={ScrollToFilters}>
@@ -92,7 +111,7 @@ function HomePage() {
           <input type="date" className="inputs" />
         </div> */}
         <div>
-          <button type="button" className="advanced-search-button" onClick={handleAdvancedCitySearch}>Search</button>
+          <button type="button" className="advanced-search-button" disabled={isSearchDisabled} onClick={handleAdvancedCitySearch}>Search</button>
         </div>
       </section>
       <footer className="footer">

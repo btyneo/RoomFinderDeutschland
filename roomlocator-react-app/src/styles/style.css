@@ -448,7 +448,6 @@ a {
     padding-right: 20px;
     color: lightpink;
   } */
-
   .demo {
     font-size: 15px; /* Smaller text size */
     text-align: center;
@@ -463,7 +462,9 @@ a {
     background-color: #3474a8; /* Optional background */
     color: white; /* Text color */
     display: inline-block; /* Keeps the oval tight around the content */
-    margin-right: 20px;
+    margin-right: 50px;
+    justify-content: center;
+    align-items: center;
 }
 
 .demo:hover {
